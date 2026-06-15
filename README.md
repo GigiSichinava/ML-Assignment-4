@@ -29,9 +29,8 @@ ML-Assignment-4/
 │   ├── models.py          BaselineMLP, SmallCNN, DeeperCNN
 │   ├── utils.py           Sanity check-ები (forward/backward), გრაფიკები
 │   └── train.py           Training loop, wandb ლოგირება, Kaggle submission
-├── notebooks/
-│   └── fer2013_colab.ipynb
-└── reports/
+└── notebooks/
+    └── fer2013_colab.ipynb
 ```
 
 ---
