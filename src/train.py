@@ -1,9 +1,10 @@
 # training loop და wandb-ზე ლოგირება
-# wandb სტრუქტურა იგივეა რაც MLflow-ზე გვქონდა:
-#   project: ერთი ყველაფერზე
-#   group: arch (იგივე experiment, მაგ SmallCNN)
+# wandb-ის სტრუქტურა იგივეა, რაც წინა დავალებაში MLflow-ზე გვქონდა:
+#   project: ერთი, ყველაფერზე
+#   group: არქიტექტურა (იგივე experiment, მაგ. SmallCNN)
 #   run: კონკრეტული ჰიპერპარამეტრების კონფიგი
-# თითო run-ში: config, epoch-ობრივ loss/acc, overfit_gap, gradient-ები, confusion matrix
+# თითო run-ში ვლოგავ: config-ს, epoch-ობრივ loss/acc-ს, overfit_gap-ს,
+# gradient-ებს და confusion matrix-ს
 
 import numpy as np
 import torch
@@ -87,7 +88,7 @@ def train_model(cfg, device=None, log_wandb=True):
     if log_wandb:
         wandb.init(project=cfg.project, group=cfg.arch, name=cfg.run_name,
                    config=cfg.to_dict(), notes=cfg.notes, reinit=True)
-        # log="all": gradient-ებსაც ლოგავს, ანუ backward-ს ვადევნებ თვალყურს
+        # log="all" gradient-ებსაც ლოგავს, ანუ backward-ს თვალყურს ვადევნებ
         wandb.watch(model, log="all", log_freq=100)
         wandb.summary["num_params"] = count_params(model)
 
@@ -111,13 +112,13 @@ def train_model(cfg, device=None, log_wandb=True):
                 "epoch": epoch,
                 "train/loss": tr_loss, "train/acc": tr_acc,
                 "val/loss": val_loss, "val/acc": val_acc,
-                "overfit_gap": tr_acc - val_acc,   # overfit:underfit-ის მთავარი მაჩვენებელი
+                "overfit_gap": tr_acc - val_acc,   # overfit-ის მთავარი მაჩვენებელი
                 "lr": optimizer.param_groups[0]["lr"],
             })
         print(f"epoch {epoch:3d}: train {tr_loss:.3f}/{tr_acc:.3f}, "
               f"val {val_loss:.3f}/{val_acc:.3f}, gap {tr_acc - val_acc:+.3f}")
 
-    # ბოლოს confusion matrix val-ზე
+    # ბოლოს confusion matrix val set-ზე
     _, _, y_true, y_pred = evaluate(model, val_loader, criterion, device, return_preds=True)
     if log_wandb:
         wandb.summary["best_val_acc"] = best_val_acc
@@ -132,10 +133,10 @@ def train_model(cfg, device=None, log_wandb=True):
 
 @torch.no_grad()
 def make_submission(model, cfg, out_path="submission.csv", device=None):
-    # test.csv-ზე პროგნოზი და Kaggle-ის submission ფაილი
+    # test.csv-ზე პროგნოზი და Kaggle-ის submission ფაილის შექმნა
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     _, _, test_loader, _ = get_dataloaders(cfg)
-    assert test_loader is not None, "test.csv ვერ ვიპოვე data_dir-ში"
+    assert test_loader is not None, "test.csv ვერ მოიძებნა data_dir-ში"
     model.eval()
     preds = []
     for x in test_loader:

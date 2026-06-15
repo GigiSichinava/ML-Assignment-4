@@ -56,7 +56,7 @@ ML-Assignment-4/
 
 **Backward Check:** 20 მაგალითზე მოდელი ~100% train accuracy-ს უნდა მიაღწევდეს. თუ ვერ აღწევს, training loop-ში ან backprop-ში ბაგია.
 
-**შედეგი:** final acc = 1.000 on 20 examples. ✓
+**შედეგი:** final acc = 1.000 (20 მაგალითზე). ✓
 
 ---
 
@@ -70,7 +70,7 @@ ML-Assignment-4/
 
 ### 1. BaselineMLP: Overfitting-ის დემონსტრაცია
 
-სურათს flatten-ვაქცევ ვექტორად და 2 FC layer-ს ვიყენებ. spatial სტრუქტურა მთლიანად იკარგება.
+სურათს flatten-ით ვაქცევ ვექტორად და 2 FC layer-ს ვიყენებ. spatial სტრუქტურა მთლიანად იკარგება.
 
 | run | epochs | dropout | best val acc | overfit gap |
 |---|---|---|---|---|

@@ -26,7 +26,7 @@ def count_params(model):
 
 def check_initial_loss(model, loader, device, num_classes=7):
     # forward-ის შემოწმება: random მოდელის loss უნდა იყოს ~ ln(კლასები)
-    # 7 კლასზე ln(7) = 1.946. თუ ძალიან სცდება, რაღაც გატეხილია
+    # 7 კლასზე ln(7) = 1.946. თუ შედეგი ძალიან სცდება, რაღაც გატეხილია
     model.eval()
     criterion = nn.CrossEntropyLoss()
     x, y = next(iter(loader))
@@ -39,8 +39,8 @@ def check_initial_loss(model, loader, device, num_classes=7):
 
 
 def overfit_small_batch(model, loader, device, n=20, steps=200, lr=1e-3):
-    # backward-ის შემოწმება: პატარა batch-ზე ~100% train acc უნდა გავიდეს
-    # თუ ვერ გადის, training loop-ში ან backward-ში ბაგია
+    # backward-ის შემოწმება: პატარა batch-ზე ~100% train acc უნდა მივიღო
+    # თუ ვერ მიიღწევა, training loop-ში ან backward-ში ბაგია
     model.train()
     criterion = nn.CrossEntropyLoss()
     opt = torch.optim.Adam(model.parameters(), lr=lr)
@@ -63,7 +63,7 @@ def overfit_small_batch(model, loader, device, n=20, steps=200, lr=1e-3):
 
 
 def plot_history(history, title="training", save_path=None):
-    # train vs val loss/acc, overfit:underfit აქედან ჩანს
+    # train და val loss/acc, overfit ან underfit აქედან ჩანს
     epochs = range(1, len(history["train_loss"]) + 1)
     fig, ax = plt.subplots(1, 2, figsize=(12, 4))
     ax[0].plot(epochs, history["train_loss"], label="train")
@@ -83,7 +83,7 @@ def plot_history(history, title="training", save_path=None):
 
 
 def plot_confusion(y_true, y_pred, save_path=None):
-    # სად ერევა მოდელს კლასები ერთმანეთში
+    # აჩვენებს, რომელ კლასებს ურევს მოდელი ერთმანეთში
     cm = confusion_matrix(y_true, y_pred)
     labels = [EMOTIONS[i] for i in range(len(EMOTIONS))]
     fig, ax = plt.subplots(figsize=(7, 6))

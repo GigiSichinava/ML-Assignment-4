@@ -1,5 +1,5 @@
-# ყველა ჰიპერპარამეტრი აქ ერთ ადგილას
-# wandb-ზე config-ად მიდის და run-ებს ამით ვადარებთ
+# ყველა ჰიპერპარამეტრი თავმოყრილია ერთ ადგილას
+# ეს Config wandb-ზე config-ად მიდის და run-ების შედარებას ამარტივებს
 
 from dataclasses import dataclass, asdict
 
@@ -8,13 +8,13 @@ from dataclasses import dataclass, asdict
 class Config:
     # wandb
     project: str = "fer2013-emotion-recognition"
-    arch: str = "SmallCNN"          # wandb group (იგივე experiment)
-    run_name: str = "baseline"      # run-ის სახელი
+    arch: str = "SmallCNN"          # wandb group, იგივე experiment
+    run_name: str = "baseline"      # კონკრეტული run-ის სახელი
     notes: str = ""
 
     # data
     data_dir: str = "data"
-    val_split: float = 0.1          # train.csv-დან რამდენი წავიდეს val-ში
+    val_split: float = 0.1          # train.csv-დან რა წილი გადავა val-ში
     batch_size: int = 128
     augment: bool = False
     num_workers: int = 2
@@ -30,7 +30,7 @@ class Config:
     optimizer: str = "adam"         # adam ან sgd
     scheduler: str = "none"         # none, cosine ან step
     label_smoothing: float = 0.0
-    use_class_weights: bool = False  # disgust ცოტაა, balance-ისთვის
+    use_class_weights: bool = False  # Disgust კლასი ცოტაა, ბალანსისთვის
 
     # სხვა
     seed: int = 42
@@ -39,10 +39,10 @@ class Config:
         return asdict(self)
 
 
-# preset-ები რომ ხელით ყოველ ჯერზე არ ავაწყო კონფიგი
-# იტერაციულად ვამატებ ახალს
+# preset-ები, რომ ყოველ ჯერზე კონფიგი ხელით არ ავაწყო
+# იტერაციულად ვამატებ ახალს, მარტივიდან რთულისკენ
 PRESETS = {
-    # 1: სუსტი მოდელი, underfit-ის საჩვენებლად
+    # 1: სუსტი მოდელი, baseline-ის დასადგენად
     "mlp_baseline": Config(
         arch="BaselineMLP", run_name="mlp_baseline",
         epochs=25, lr=1e-3, dropout=0.0,
@@ -54,11 +54,11 @@ PRESETS = {
         epochs=30, lr=1e-3, dropout=0.25,
         notes="2 conv block + BatchNorm",
     ),
-    # 3: ღრმა CNN რეგულარიზაციის გარეშე, აქ overfit-ი გამოჩნდება
+    # 3: ღრმა CNN რეგულარიზაციის გარეშე, აქ overfit გამოჩნდება
     "deepcnn_overfit": Config(
         arch="DeeperCNN", run_name="deepcnn_no_reg",
         epochs=40, lr=1e-3, dropout=0.0, weight_decay=0.0, augment=False,
-        notes="4 conv block, განზრახ regularization-ის გარეშე",
+        notes="4 conv block, განზრახ რეგულარიზაციის გარეშე",
     ),
     # 4: იგივე ღრმა CNN, ოღონდ რეგულარიზებული
     "deepcnn_regularized": Config(
