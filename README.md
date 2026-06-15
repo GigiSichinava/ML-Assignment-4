@@ -180,5 +180,6 @@ run: კონკრეტული ჰიპერპარამეტრე�
 ## ბმულები:
 
 - **Wandb Project:** https://wandb.ai/gsich23-free-university-of-tbilisi-/fer2013-emotion-recognition
+- **Wandb Report:** https://wandb.ai/gsich23-free-university-of-tbilisi-/fer2013-emotion-recognition/reports/FER2013-Facial-Expression-Recognition--VmlldzoxNzIzODEwMQ
 - **Kaggle Dataset:** https://www.kaggle.com/datasets/deadskull7/fer2013
 - **Kaggle Competition:** https://www.kaggle.com/competitions/challenges-in-representation-learning-facial-expression-recognition-challenge
