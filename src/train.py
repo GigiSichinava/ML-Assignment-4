@@ -1,6 +1,6 @@
 # training loop და wandb-ზე ლოგირება
-# wandb-ის სტრუქტურა იგივეა, რაც წინა დავალებაში MLflow-ზე გვქონდა:
-#   project: ერთი, ყველაფერზე
+# wandb-ის სტრუქტურა იგივეა, რაც წინა დავალებებში MLflow-ზე გვქონდა:
+#   project: მთავარი პროექტი
 #   group: არქიტექტურა (იგივე experiment, მაგ. SmallCNN)
 #   run: კონკრეტული ჰიპერპარამეტრების კონფიგი
 # თითო run-ში ვლოგავ: config-ს, epoch-ობრივ loss/acc-ს, overfit_gap-ს,
@@ -134,6 +134,7 @@ def train_model(cfg, device=None, log_wandb=True):
 @torch.no_grad()
 def make_submission(model, cfg, out_path="submission.csv", device=None):
     # test.csv-ზე პროგნოზი და Kaggle-ის submission ფაილის შექმნა
+    # (ხარვეზი აქვს წესით ამ Competition-ს, Late Submission-ის საშუალებას არ გვაძლევს)*
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     _, _, test_loader, _ = get_dataloaders(cfg)
     assert test_loader is not None, "test.csv ვერ მოიძებნა data_dir-ში"

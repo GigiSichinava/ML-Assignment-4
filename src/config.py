@@ -32,7 +32,6 @@ class Config:
     label_smoothing: float = 0.0
     use_class_weights: bool = False  # Disgust კლასი ცოტაა, ბალანსისთვის
 
-    # სხვა
     seed: int = 42
 
     def to_dict(self):

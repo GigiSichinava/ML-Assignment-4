@@ -39,7 +39,7 @@ class FERDataset(Dataset):
         return len(self.images)
 
     def _transform(self, img):
-        # 0-255 დიაპაზონს ვიყვან 0-1-ში
+        # 0-255 დიაპაზონი დამყავს (0, 1)-ში
         img = img / 255.0
         if self.augment:
             # მარტივი augmentation, ამ ამოცანისთვის სავსებით საკმარისი
@@ -113,8 +113,7 @@ def get_dataloaders(cfg):
 
 
 def prepare_data(data_dir="data"):
-    # ვრწმუნდები, რომ data/train.csv და data/test.csv ადგილზეა
-    # Kaggle ზოგჯერ პირდაპირ csv-ებს გვაძლევს, ზოგჯერ tar.gz-ს ან fer2013.csv-ს
+    # ვამოწმებ data/train.csv-სა და data/test.csv-ს
     import glob, tarfile
     tr = os.path.join(data_dir, "train.csv")
     te = os.path.join(data_dir, "test.csv")

@@ -26,7 +26,7 @@ def count_params(model):
 
 def check_initial_loss(model, loader, device, num_classes=7):
     # forward-ის შემოწმება: random მოდელის loss უნდა იყოს ~ ln(კლასები)
-    # 7 კლასზე ln(7) = 1.946. თუ შედეგი ძალიან სცდება, რაღაც გატეხილია
+    # 7 კლასზე ln(7) = 1.946. თუ შედეგი ძალიან სცდება, რაღაც პრობლემაა
     model.eval()
     criterion = nn.CrossEntropyLoss()
     x, y = next(iter(loader))
@@ -39,8 +39,8 @@ def check_initial_loss(model, loader, device, num_classes=7):
 
 
 def overfit_small_batch(model, loader, device, n=20, steps=200, lr=1e-3):
-    # backward-ის შემოწმება: პატარა batch-ზე ~100% train acc უნდა მივიღო
-    # თუ ვერ მიიღწევა, training loop-ში ან backward-ში ბაგია
+    # backward-ის შემოწმება: პატარა batch-ზე ~100% train acc უნდა მივიღოთ
+    # თუ ვერ მიიღწევა, training loop-ში ან backward-ში ხარვეზია
     model.train()
     criterion = nn.CrossEntropyLoss()
     opt = torch.optim.Adam(model.parameters(), lr=lr)
